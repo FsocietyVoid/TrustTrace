@@ -28,5 +28,5 @@ TrustTrace utilizes a clean, modular architecture separated into three primary e
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/FsocietyVoid/trusttrace.git](https://github.com/FsocietyVoid/trusttrace.git)
+   git clone (https://github.com/FsocietyVoid/trusttrace.git)
    cd trusttrace
