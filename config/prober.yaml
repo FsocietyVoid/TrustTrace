@@ -1,0 +1,25 @@
+region: "us-east-1"
+node_key_path: "/var/trusttrace/keys/node.key"
+consensus_addr: "consensus:50051"
+worker_count: 20
+queue_depth: 500
+probe_interval: "30s"
+probe_timeout: "5s"
+metrics_port: "9090"
+
+targets:
+  - id: "api-health"
+    url: "https://api.example.com/healthz"
+    method: "GET"
+    expect_code: 200
+    sla_percent: 99.9
+  - id: "checkout-service"
+    url: "https://checkout.example.com/ping"
+    method: "HEAD"
+    expect_code: 200
+    sla_percent: 99.95
+  - id: "auth-service"
+    url: "https://auth.example.com/health"
+    method: "GET"
+    expect_code: 200
+    sla_percent: 99.99

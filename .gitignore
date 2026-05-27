@@ -1,0 +1,16 @@
+# Binaries
+*.exe
+bin/
+
+# Config with secrets
+config/notary.yaml
+
+# Go
+go.sum
+
+# Generated proto files (optional, some teams commit these)
+# proto/**/*.pb.go
+
+# IDE
+.vscode/
+.idea/

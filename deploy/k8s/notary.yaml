@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trusttrace-notary
+  namespace: trusttrace
+spec:
+  replicas: 1        # single notary is safe — idempotent on duplicate roots
+  selector:
+    matchLabels:
+      app: trusttrace-notary
+  template:
+    metadata:
+      labels:
+        app: trusttrace-notary
+    spec:
+      containers:
+        - name: notary
+          image: ghcr.io/trusttrace/notary:latest
+          ports:
+            - containerPort: 9092
+              name: metrics
+          envFrom:
+            - secretRef:
+                name: trusttrace-notary-secrets  # ETH_PRIVATE_KEY, INFURA_URL, etc.
+          volumeMounts:
+            - name: config
+              mountPath: /etc/trusttrace
+          resources:
+            requests: { cpu: "50m",  memory: "64Mi" }
+            limits:   { cpu: "200m", memory: "256Mi" }
+          livenessProbe:
+            httpGet: { path: /healthz, port: 9092 }
+      volumes:
+        - name: config
+          configMap:
+            name: trusttrace-notary-config
