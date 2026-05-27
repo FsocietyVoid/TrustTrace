@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'trusttrace-prober'
+    static_configs:
+      - targets: ['prober-us-east-1:9090', 'prober-eu-west-2:9090', 'prober-ap-south-1:9090']
+
+  - job_name: 'trusttrace-consensus'
+    static_configs:
+      - targets: ['consensus:9091']
+
+  - job_name: 'trusttrace-notary'
+    static_configs:
+      - targets: ['notary:9092']
