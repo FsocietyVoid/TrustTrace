@@ -1,0 +1,43 @@
+syntax = "proto3";
+package metrics;
+option go_package = "github.com/FsocietyVoid/TrustTrace/proto/metrics";
+
+// Signed telemetry emitted by a single edge prober node.
+message ProbeResult {
+    string  probe_id        = 1;  // UUID of this probe event
+    string  region          = 2;  // e.g. "us-east-1"
+    string  target_url      = 3;
+    int64   timestamp_unix  = 4;  // Unix nanoseconds
+    int32   status_code     = 5;
+    int64   latency_ms      = 6;
+    bool    is_up           = 7;
+    bytes   signature       = 8;  // Ed25519 sig over canonical payload
+    bytes   public_key      = 9;  // 32-byte Ed25519 pubkey of this node
+    string  node_id         = 10; // stable node identifier
+}
+
+// Quorum-verified, deduped record written to ClickHouse.
+message VerifiedMetric {
+    string probe_id        = 1;
+    string target_url      = 2;
+    int64  timestamp_unix  = 3;
+    int32  status_code     = 4;
+    int64  latency_ms      = 5;
+    bool   is_up           = 6;
+    int32  quorum_count    = 7; // how many nodes agreed
+    repeated string regions = 8;
+}
+
+message IngestRequest {
+    ProbeResult result = 1;
+}
+
+message IngestResponse {
+    bool   accepted = 1;
+    string reason   = 2;
+}
+
+service MetricsIngestion {
+    rpc Ingest(IngestRequest) returns (IngestResponse);
+    rpc IngestStream(stream IngestRequest) returns (stream IngestResponse);
+}

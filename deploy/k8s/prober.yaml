@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: DaemonSet          # one prober per node, or use Deployment for per-region
+metadata:
+  name: trusttrace-prober
+  namespace: trusttrace
+spec:
+  selector:
+    matchLabels:
+      app: trusttrace-prober
+  template:
+    metadata:
+      labels:
+        app: trusttrace-prober
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+    spec:
+      containers:
+        - name: prober
+          image: ghcr.io/trusttrace/prober:latest
+          ports:
+            - containerPort: 9090
+              name: metrics
+          env:
+            - name: REGION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['topology.kubernetes.io/region']
+          volumeMounts:
+            - name: config
+              mountPath: /etc/trusttrace
+            - name: keys
+              mountPath: /var/trusttrace/keys
+          resources:
+            requests: { cpu: "50m", memory: "64Mi" }
+            limits:   { cpu: "200m", memory: "128Mi" }
+          livenessProbe:
+            httpGet: { path: /healthz, port: 9090 }
+            initialDelaySeconds: 5
+            periodSeconds: 15
+      volumes:
+        - name: config
+          configMap:
+            name: trusttrace-prober-config
+        - name: keys
+          persistentVolumeClaim:
+            claimName: prober-key-pvc

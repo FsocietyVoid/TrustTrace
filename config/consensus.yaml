@@ -1,0 +1,5 @@
+grpc_addr: ":50051"
+metrics_port: "9091"
+clickhouse_dsn: "clickhouse:9000"
+timescale_dsn: "postgres://trusttrace:secret@timescale:5432/trusttrace"
+quorum_ttl: "2m"

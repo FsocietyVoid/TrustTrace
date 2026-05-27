@@ -1,0 +1,135 @@
+version: "3.9"
+
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.3
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    environment:
+      CLICKHOUSE_DB: trusttrace
+    healthcheck:
+      test: ["CMD", "clickhouse-client", "--query", "SELECT 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  timescale:
+    image: timescale/timescaledb:latest-pg16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: trusttrace
+      POSTGRES_USER: trusttrace
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - timescale_data:/var/lib/postgresql/data
+
+  ipfs:
+    image: ipfs/kubo:v0.28.0
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+      - "8080:8080"
+    volumes:
+      - ipfs_data:/data/ipfs
+
+  consensus:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.consensus
+    ports:
+      - "50051:50051"
+      - "9091:9091"
+    volumes:
+      - ./config:/etc/trusttrace:ro
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    restart: unless-stopped
+
+  prober-us-east-1:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.prober
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config:/etc/trusttrace:ro
+      - prober_keys_us:/var/trusttrace/keys
+    environment:
+      REGION: us-east-1
+    depends_on:
+      - consensus
+    restart: unless-stopped
+
+  prober-eu-west-2:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.prober
+    ports:
+      - "9093:9090"
+    volumes:
+      - ./config:/etc/trusttrace:ro
+      - prober_keys_eu:/var/trusttrace/keys
+    environment:
+      REGION: eu-west-2
+    depends_on:
+      - consensus
+    restart: unless-stopped
+
+  prober-ap-south-1:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.prober
+    ports:
+      - "9094:9090"
+    volumes:
+      - ./config:/etc/trusttrace:ro
+      - prober_keys_ap:/var/trusttrace/keys
+    environment:
+      REGION: ap-south-1
+    depends_on:
+      - consensus
+    restart: unless-stopped
+
+  notary:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.notary
+    ports:
+      - "9092:9092"
+    volumes:
+      - ./config:/etc/trusttrace:ro
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+      ipfs:
+        condition: service_started
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.51.2
+    ports:
+      - "9095:9090"
+    volumes:
+      - ./deploy/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: trusttrace
+    depends_on:
+      - prometheus
+
+volumes:
+  clickhouse_data:
+  timescale_data:
+  ipfs_data:
+  prober_keys_us:
+  prober_keys_eu:
+  prober_keys_ap:

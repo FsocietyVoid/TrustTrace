@@ -1,0 +1,27 @@
+syntax = "proto3";
+package notary;
+option go_package = "github.com/FsocietyVoid/TrustTrace/proto/notary";
+
+message MerkleAnchor {
+    bytes  merkle_root    = 1;  // 32-byte SHA-256 Merkle root
+    int64  window_start   = 2;  // Unix ns — start of 10-min window
+    int64  window_end     = 3;
+    string tx_hash        = 4;  // on-chain transaction hash
+    string ipfs_cid       = 5;  // IPFS CID of the full proof blob
+    int64  leaf_count     = 6;  // number of metrics in window
+    string chain          = 7;  // "ethereum" | "solana"
+}
+
+message AnchorRequest {
+    int64 window_start = 1;
+    int64 window_end   = 2;
+}
+
+message AnchorResponse {
+    MerkleAnchor anchor = 1;
+}
+
+service NotaryService {
+    rpc AnchorWindow(AnchorRequest) returns (AnchorResponse);
+    rpc GetAnchor(AnchorRequest)   returns (AnchorResponse);
+}
