@@ -3,7 +3,7 @@
 bin/
 
 # Config with secrets
-config/notary.yaml
+
 
 # Go
 go.sum
