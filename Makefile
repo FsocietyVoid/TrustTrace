@@ -1,4 +1,4 @@
-.PHONY: proto build test lint docker-up docker-down generate-keys
+.PHONY: proto build test lint docker-up docker-down generate-keys clean run-prober
 
 PROTO_DIR  := proto
 GEN_DIR    := gen
@@ -18,6 +18,27 @@ build:
 	CGO_ENABLED=0 go build -ldflags="-s -w" -o $(BINARY_DIR)/prober    ./cmd/prober
 	CGO_ENABLED=0 go build -ldflags="-s -w" -o $(BINARY_DIR)/consensus ./cmd/consensus
 	CGO_ENABLED=0 go build -ldflags="-s -w" -o $(BINARY_DIR)/notary    ./cmd/notary
+
+# Individual build helpers from remote
+build-prober:
+	mkdir -p $(BINARY_DIR)
+	go build -o $(BINARY_DIR)/prober ./cmd/prober
+
+build-consensus:
+	mkdir -p $(BINARY_DIR)
+	go build -o $(BINARY_DIR)/consensus ./cmd/consensus
+
+build-notary:
+	mkdir -p $(BINARY_DIR)
+	go build -o $(BINARY_DIR)/notary ./cmd/notary
+
+# ── Execution & Cleanup ────────────────────────────────────────────────────
+run-prober: build-prober
+	./$(BINARY_DIR)/prober
+
+clean:
+	rm -rf $(BINARY_DIR)/
+	rm -f coverage.out
 
 # ── Test ───────────────────────────────────────────────────────────────────
 test:

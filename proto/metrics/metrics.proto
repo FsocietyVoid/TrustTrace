@@ -1,6 +1,6 @@
 syntax = "proto3";
 package metrics;
-option go_package = "github.com/trusttrace/trusttrace/proto/metrics";
+option go_package = "github.com/FsocietyVoid/TrustTrace/proto/metrics";
 
 // Signed telemetry emitted by a single edge prober node.
 message ProbeResult {

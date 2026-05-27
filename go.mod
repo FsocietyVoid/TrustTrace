@@ -1,4 +1,4 @@
-module github.com/trusttrace/trusttrace
+module github.com/FsocietyVoid/TrustTrace
 
 go 1.22
 

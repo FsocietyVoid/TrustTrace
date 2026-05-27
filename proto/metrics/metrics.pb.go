@@ -7,11 +7,12 @@
 package metrics
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -375,7 +376,7 @@ const file_proto_metrics_metrics_proto_rawDesc = "" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason2\x92\x01\n" +
 	"\x10MetricsIngestion\x129\n" +
 	"\x06Ingest\x12\x16.metrics.IngestRequest\x1a\x17.metrics.IngestResponse\x12C\n" +
-	"\fIngestStream\x12\x16.metrics.IngestRequest\x1a\x17.metrics.IngestResponse(\x010\x01B0Z.github.com/trusttrace/trusttrace/proto/metricsb\x06proto3"
+	"\fIngestStream\x12\x16.metrics.IngestRequest\x1a\x17.metrics.IngestResponse(\x010\x01B0Z.github.com/FsocietyVoid/TrustTrace/proto/metricsb\x06proto3"
 
 var (
 	file_proto_metrics_metrics_proto_rawDescOnce sync.Once

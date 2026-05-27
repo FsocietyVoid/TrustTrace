@@ -1,6 +1,6 @@
 syntax = "proto3";
 package notary;
-option go_package = "github.com/trusttrace/trusttrace/proto/notary";
+option go_package = "github.com/FsocietyVoid/TrustTrace/proto/notary";
 
 message MerkleAnchor {
     bytes  merkle_root    = 1;  // 32-byte SHA-256 Merkle root
