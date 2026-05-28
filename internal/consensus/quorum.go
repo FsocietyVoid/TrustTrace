@@ -4,6 +4,7 @@ import (
 	"crypto/ed25519"
 	"sync"
 	"time"
+	"fmt"
 
 	ttcrypto "github.com/FsocietyVoid/TrustTrace/internal/crypto"
 	pb "github.com/FsocietyVoid/TrustTrace/proto/metrics"
@@ -105,7 +106,7 @@ func buildVerifiedMetric(results []*pb.ProbeResult) *pb.VerifiedMetric {
 // windowKey buckets probe results into 30-second intervals.
 func windowKey(url string, tsNs int64) string {
 	window := tsNs / int64(30*time.Second)
-	return url + ":" + string(rune(window))
+	return fmt.Sprintf("%s:%d", url, window)
 }
 
 func (qm *QuorumManager) reaper() {
