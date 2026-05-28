@@ -12,6 +12,7 @@ import (
 	"github.com/FsocietyVoid/TrustTrace/internal/prober"
 	"github.com/FsocietyVoid/TrustTrace/pkg/telemetry"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -41,11 +42,10 @@ func main() {
 	}
 
 	// Prometheus metrics server.
-	reg := prometheus.NewRegistry()
-	telemetry.NewMetrics(reg)
+	telemetry.NewMetrics(prometheus.DefaultRegisterer)
 	go func() {
 		mux := http.NewServeMux()
-		mux.Handle("/metrics", telemetry.Handler())
+		mux.Handle("/metrics", promhttp.Handler())
 		mux.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
 			fmt.Fprintln(w, "ok")
 		})
