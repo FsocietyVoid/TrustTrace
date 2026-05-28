@@ -58,7 +58,7 @@ func (c *ClickHouseClient) migrate(ctx context.Context) error {
     ENGINE = MergeTree()
     PARTITION BY toYYYYMMDD(timestamp)
     ORDER BY (target_url, timestamp)
-    TTL timestamp + INTERVAL 90 DAY
+    TTL toDateTime(timestamp) + INTERVAL 90 DAY
     SETTINGS index_granularity = 8192;
     `
 	return c.conn.Exec(ctx, ddl)
