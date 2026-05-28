@@ -5,7 +5,7 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /bin/consensus ./cmd/consensus
 
-FROM gcr.io/distroless/static-debian12
+FROM alpine:3.19
 EXPOSE 50051 9091
 COPY --from=builder /bin/consensus /consensus
 ENTRYPOINT ["/consensus"]
