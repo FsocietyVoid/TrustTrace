@@ -10,6 +10,7 @@ import (
 
 	"github.com/FsocietyVoid/TrustTrace/internal/notary"
 	"github.com/FsocietyVoid/TrustTrace/internal/storage"
+	"github.com/FsocietyVoid/TrustTrace/pkg/telemetry"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
@@ -54,6 +55,7 @@ func main() {
 	// Health endpoint.
 	go func() {
 		mux := http.NewServeMux()
+		mux.Handle("/metrics", telemetry.Handler())
 		mux.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
 			fmt.Fprintln(w, "ok")
 		})
