@@ -61,7 +61,6 @@ services:
       - "9090:9090"
     volumes:
       - ./config:/etc/trusttrace:ro
-      - prober_keys_us:/var/trusttrace/keys
     environment:
       REGION: us-east-1
     depends_on:
@@ -76,7 +75,6 @@ services:
       - "9093:9090"
     volumes:
       - ./config:/etc/trusttrace:ro
-      - prober_keys_eu:/var/trusttrace/keys
     environment:
       REGION: eu-west-2
     depends_on:
@@ -91,7 +89,6 @@ services:
       - "9094:9090"
     volumes:
       - ./config:/etc/trusttrace:ro
-      - prober_keys_ap:/var/trusttrace/keys
     environment:
       REGION: ap-south-1
     depends_on:
@@ -133,6 +130,3 @@ volumes:
   clickhouse_data:
   timescale_data:
   ipfs_data:
-  prober_keys_us:
-  prober_keys_eu:
-  prober_keys_ap:
