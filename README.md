@@ -42,38 +42,7 @@ TrustTrace solves this by:
 
 ## System Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Edge Probers                             │
-│                                                                 │
-│  [us-east-1 Prober]  ──┐                                       │
-│  [eu-west-2 Prober]  ──┼──► gRPC IngestStream                  │
-│  [ap-south-1 Prober] ──┘         │                             │
-└──────────────────────────────────┼─────────────────────────────┘
-                                   │
-                                   ▼
-┌──────────────────────────────────────────────────────────────────┐
-│                     Consensus Engine                             │
-│                                                                  │
-│   Ed25519 signature verify → Dedup (5-min TTL) → 2-of-3 Quorum  │
-│                                   │                              │
-│                                   ▼                              │
-│                         ClickHouse (MergeTree)                   │
-└───────────────────────────────────┬──────────────────────────────┘
-                                    │
-                              every 10 minutes
-                                    │
-                                    ▼
-┌──────────────────────────────────────────────────────────────────┐
-│                     Cryptographic Notary                         │
-│                                                                  │
-│   Query window → Build Merkle Tree → Pin to IPFS                 │
-│                                   │                              │
-│                                   ▼                              │
-│              Ethereum: commitRoot(bytes32, uint256, uint256)      │
-│                  Immutable on-chain SLA anchor                   │
-└──────────────────────────────────────────────────────────────────┘
-```
+![TrustTrace Architecture](trusttrace_architecture.svg)
 
 ### Data Flow
 
