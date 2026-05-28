@@ -2,10 +2,10 @@ metrics_port: "9092"
 clickhouse_dsn: "clickhouse:9000"
 
 # Ethereum / EVM config
-eth_rpc_url: "https://mainnet.infura.io/v3/d463dbac16f1417294336e9b3c9a960d"
-eth_private_key: "0x22255dd2ed3f40e07d5ff9fe498e096d9d149bbb1e27cc532a0880eba59feee6"
+eth_rpc_url: "https://sepolia.infura.io/v3/d463dbac16f1417294336e9b3c9a960d"
+eth_private_key: "22255dd2ed3f40e07d5ff9fe498e096d9d149bbb1e27cc532a0880eba59feee6"
 contract_address: "0x94341a7A496c15fd1Ec62eE1A39a5a4eDBFE7FF5"
-chain_id: 1   # 1=mainnet, 11155111=sepolia, 137=polygon
+chain_id: 11155111   # 1=mainnet, 11155111=sepolia, 137=polygon
 
 # IPFS daemon
-ipfs_api: "localhost:5001"
+ipfs_api: "ipfs:5001"
