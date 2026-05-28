@@ -8,18 +8,18 @@ probe_timeout: "5s"
 metrics_port: "9090"
 
 targets:
-  - id: "api-health"
-    url: "https://api.example.com/healthz"
+  - id: "google"
+    url: "https://www.google.com"
     method: "GET"
     expect_code: 200
     sla_percent: 99.9
-  - id: "checkout-service"
-    url: "https://checkout.example.com/ping"
-    method: "HEAD"
+  - id: "github"
+    url: "https://github.com"
+    method: "GET"
     expect_code: 200
     sla_percent: 99.95
-  - id: "auth-service"
-    url: "https://auth.example.com/health"
+  - id: "cloudflare"
+    url: "https://www.cloudflare.com"
     method: "GET"
     expect_code: 200
     sla_percent: 99.99
