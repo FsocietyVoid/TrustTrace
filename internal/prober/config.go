@@ -4,14 +4,14 @@ import "time"
 
 // Config holds all tunable parameters for one edge prober instance.
 type Config struct {
-    Region        string        `yaml:"region"`         // e.g. "us-east-1"
-    NodeKeyPath   string        `yaml:"node_key_path"`  // path to Ed25519 private key file
-    ConsensusAddr string        `yaml:"consensus_addr"` // host:port of gRPC consensus engine
-    WorkerCount   int           `yaml:"worker_count"`   // parallel probe goroutines
-    QueueDepth    int           `yaml:"queue_depth"`    // buffered channel size
-    ProbeInterval time.Duration `yaml:"probe_interval"` // how often to re-probe each target
-    ProbeTimeout  time.Duration `yaml:"probe_timeout"`  // per-request HTTP timeout
-    Targets       []Target      `yaml:"targets"`
+    Region        string        `yaml:"region" mapstructure:"region"`         // e.g. "us-east-1"
+    NodeKeyPath   string        `yaml:"node_key_path" mapstructure:"node_key_path"`  // path to Ed25519 private key file
+    ConsensusAddr string        `yaml:"consensus_addr" mapstructure:"consensus_addr"` // host:port of gRPC consensus engine
+    WorkerCount   int           `yaml:"worker_count" mapstructure:"worker_count"`   // parallel probe goroutines
+    QueueDepth    int           `yaml:"queue_depth" mapstructure:"queue_depth"`    // buffered channel size
+    ProbeInterval time.Duration `yaml:"probe_interval" mapstructure:"probe_interval"` // how often to re-probe each target
+    ProbeTimeout  time.Duration `yaml:"probe_timeout" mapstructure:"probe_timeout"`  // per-request HTTP timeout
+    Targets       []Target      `yaml:"targets" mapstructure:"targets"`
 }
 
 // Target describes one HTTP/S endpoint to be monitored.

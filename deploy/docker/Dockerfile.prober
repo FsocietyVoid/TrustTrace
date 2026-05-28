@@ -5,6 +5,6 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /bin/prober ./cmd/prober
 
-FROM gcr.io/distroless/static-debian12
+FROM alpine:3.19
 COPY --from=builder /bin/prober /prober
 ENTRYPOINT ["/prober"]
