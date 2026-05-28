@@ -7,12 +7,11 @@
 package notary
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -234,7 +233,7 @@ const file_proto_notary_notary_proto_rawDesc = "" +
 	"\x06anchor\x18\x01 \x01(\v2\x14.notary.MerkleAnchorR\x06anchor2\x8a\x01\n" +
 	"\rNotaryService\x12=\n" +
 	"\fAnchorWindow\x12\x15.notary.AnchorRequest\x1a\x16.notary.AnchorResponse\x12:\n" +
-	"\tGetAnchor\x12\x15.notary.AnchorRequest\x1a\x16.notary.AnchorResponseB/Z-github.com/FsocietyVoid/TrustTrace/proto/notaryb\x06proto3"
+	"\tGetAnchor\x12\x15.notary.AnchorRequest\x1a\x16.notary.AnchorResponseB1Z/github.com/FsocietyVoid/TrustTrace/proto/notaryb\x06proto3"
 
 var (
 	file_proto_notary_notary_proto_rawDescOnce sync.Once

@@ -1,6 +1,6 @@
 module github.com/FsocietyVoid/TrustTrace
 
-go 1.22
+go 1.23
 
 require (
 	github.com/ClickHouse/clickhouse-go/v2 v2.23.2
@@ -12,7 +12,7 @@ require (
 	github.com/spf13/viper v1.18.2
 	go.uber.org/zap v1.27.0
 	google.golang.org/grpc v1.64.0
-	google.golang.org/protobuf v1.34.1
+	google.golang.org/protobuf v1.36.11
 )
 
 require (
