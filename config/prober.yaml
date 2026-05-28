@@ -1,5 +1,5 @@
 region: "us-east-1"
-node_key_path: "/var/trusttrace/keys/node.key"
+node_key_path: "/tmp/node.key"
 consensus_addr: "consensus:50051"
 worker_count: 20
 queue_depth: 500
