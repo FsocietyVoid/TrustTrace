@@ -10,6 +10,9 @@ services:
       - clickhouse_data:/var/lib/clickhouse
     environment:
       CLICKHOUSE_DB: trusttrace
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: ""
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
     healthcheck:
       test: ["CMD", "clickhouse-client", "--query", "SELECT 1"]
       interval: 5s
